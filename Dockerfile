@@ -7,8 +7,9 @@ RUN apt-get update -qq && apt-get -y install curl
 ENV CT_URL https://raw.githubusercontent.com/LonghronShen/DR-CoN/master/consul-template.tar.gz
 
 #Install Consul Template
-RUN curl -L $CT_URL | \
-tar -C /usr/local/bin --strip-components 1 -zxf -
+#RUN curl -L $CT_URL | \
+#tar -C /usr/local/bin -zxf -
+COPY consul-template /usr/local/bin/
 
 #Setup Consul Template Files
 RUN mkdir /etc/consul-templates
