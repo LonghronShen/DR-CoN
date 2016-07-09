@@ -4,12 +4,12 @@ FROM nginx:1.7
 RUN apt-get update -qq && apt-get -y install curl wget unzip
 
 #Link to Consul Template Binary
-ENV CT_URL https://releases.hashicorp.com/consul-template/0.15.0/consul-template_0.15.0_linux_amd64.zip
+#ENV CT_URL https://releases.hashicorp.com/consul-template/0.15.0/consul-template_0.15.0_linux_amd64.zip
 
 #Install Consul Template
 #RUN curl -L $CT_URL | \
 #unzip -
-RUN wget CT_URL && unzip consul-template_0.15.0_linux_amd64.zip.zip && rm consul-template_0.15.0_linux_amd64.zip.zip
+RUN unzip consul-template_0.15.0_linux_amd64.zip.zip
 
 #Setup Consul Template Files
 RUN mkdir /etc/consul-templates
