@@ -9,7 +9,7 @@ RUN apt-get update -qq && apt-get -y install curl wget unzip
 #Install Consul Template
 #RUN curl -L $CT_URL | \
 #unzip -
-RUN unzip consul-template_0.15.0_linux_amd64.zip.zip
+RUN unzip consul-template_0.15.0_linux_amd64.zip
 
 #Setup Consul Template Files
 RUN mkdir /etc/consul-templates
