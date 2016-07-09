@@ -9,7 +9,7 @@ ENV CT_URL https://releases.hashicorp.com/consul-template/0.15.0/consul-template
 #Install Consul Template
 #RUN curl -L $CT_URL | \
 #unzip -
-RUN wget -qO- -O tmp.zip CT_URL && unzip tmp.zip && rm tmp.zip
+RUN wget CT_URL && unzip consul-template_0.15.0_linux_amd64.zip.zip && rm consul-template_0.15.0_linux_amd64.zip.zip
 
 #Setup Consul Template Files
 RUN mkdir /etc/consul-templates
