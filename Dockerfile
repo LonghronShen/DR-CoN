@@ -23,22 +23,10 @@ ENV SERVICE consul-8500
 # 2. Start Nginx
 # 3. Start Consul Template
 
-CMD echo "upstream app {                 \n\
-  least_conn;                            \n\
-  {{range service \"$SERVICE\"}}         \n\
-  server  {{.Address}}:{{.Port}} max_fails=3 fail_timeout=60 weight=1;        \n\
-  {{else}}server 127.0.0.1:65535;{{end}} \n\
-}                                        \n\
-server {                                 \n\
-  listen 80 default_server;              \n\
-  location / {                           \n\
-    proxy_pass http://app;               \n\
-	  proxy_http_version 1.1;					        \n\
-    proxy_set_header Upgrade $http_upgrade;	\n\
-    proxy_set_header Connection "upgrade";	\n\
-  }                                      \n\
-}" > $CT_FILE; \
-/usr/sbin/nginx -c /etc/nginx/nginx.conf \
+COPY nginx.conf /etc/consul-templates/
+
+CMD /usr/sbin/nginx -c /etc/nginx/nginx.conf \
 & CONSUL_TEMPLATE_LOG=debug consul-template \
   -consul=$CONSUL \
   -template "$CT_FILE:$NX_FILE:/usr/sbin/nginx -s reload";
+  
