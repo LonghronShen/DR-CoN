@@ -23,16 +23,18 @@ ENV SERVICE consul-8500
 # 2. Start Nginx
 # 3. Start Consul Template
 
-CMD echo "gzip              on;                                                                               \n\
+CMD echo "                                                                                                    \n\
+gzip              on;                                                                                         \n\
 gzip_min_length   1000;                                                                                       \n\
 gzip_types        text/plain text/css text/json application/x-javascript application/json application/xml;    \n\
 gunzip			      on;                                                                                         \n\
                                                                                                               \n\
 upstream app {                                                                                                \n\
-  least_conn;                                                                                                 \n\
-  {{range service \"$SERVICE\"}}server {{.Address}}:{{.Port}} max_fails=3 fail_timeout=60 weight=1;           \n\
-  {{else}}server 127.0.0.1:65535; # force a 502{{end}}                                                        \n\
+  {{range service \"$SERVICE\"}}                                                                              \n\
+  server  {{.Address}}:{{.Port}};                                                                             \n\
+  {{else}}server 127.0.0.1:65535;{{end}}                                                                      \n\
 }                                                                                                             \n\
+                                                                                                              \n\
 server {                                                                                                      \n\
   listen 80 default_server;                                                                                   \n\
   location / {                                                                                                \n\
