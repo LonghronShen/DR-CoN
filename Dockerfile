@@ -43,9 +43,6 @@ server {                                                                        
     proxy_set_header Host $host;                                                                              \n\
 		proxy_set_header X-Real-IP $remote_addr;                                                                  \n\
 		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;                                              \n\
-		proxy_connect_timeout      300;                                                                           \n\
-		proxy_send_timeout         300;                                                                           \n\
-		proxy_read_timeout         300;                                                                           \n\
 		proxy_buffer_size          4k;                                                                            \n\
 		proxy_buffers              4 32k;                                                                         \n\
 		proxy_busy_buffers_size    64k;                                                                           \n\
