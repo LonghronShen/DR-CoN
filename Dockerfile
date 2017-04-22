@@ -23,10 +23,36 @@ ENV SERVICE consul-8500
 # 2. Start Nginx
 # 3. Start Consul Template
 
-COPY nginx.conf /etc/consul-templates/
-
-CMD /usr/sbin/nginx -c /etc/nginx/nginx.conf \
+CMD echo "gzip              on;                                                                               \n\
+gzip_min_length   1000;                                                                                       \n\
+gzip_types        text/plain text/css text/json application/x-javascript application/json application/xml;    \n\
+gunzip			      on;                                                                                         \n\
+                                                                                                              \n\
+upstream app {                                                                                                \n\
+  least_conn;                                                                                                 \n\
+  {{range service \"$SERVICE\"}}server {{.Address}}:{{.Port}} max_fails=3 fail_timeout=60 weight=1;           \n\
+  {{else}}server 127.0.0.1:65535; # force a 502{{end}}                                                        \n\
+}                                                                                                             \n\
+server {                                                                                                      \n\
+  listen 80 default_server;                                                                                   \n\
+  location / {                                                                                                \n\
+    proxy_pass http://app;                                                                                    \n\
+	  proxy_http_version 1.1;                                                                                   \n\
+    proxy_set_header Upgrade $http_upgrade;                                                                   \n\
+    proxy_set_header Connection \"upgrade\";                                                                  \n\
+    proxy_set_header Host $host;                                                                              \n\
+		proxy_set_header X-Real-IP $remote_addr;                                                                  \n\
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;                                              \n\
+		proxy_connect_timeout      300;                                                                           \n\
+		proxy_send_timeout         300;                                                                           \n\
+		proxy_read_timeout         300;                                                                           \n\
+		proxy_buffer_size          4k;                                                                            \n\
+		proxy_buffers              4 32k;                                                                         \n\
+		proxy_busy_buffers_size    64k;                                                                           \n\
+		proxy_temp_file_write_size 64k;                                                                           \n\
+  }                                                                                                           \n\
+}" > $CT_FILE; \
+/usr/sbin/nginx -c /etc/nginx/nginx.conf \
 & CONSUL_TEMPLATE_LOG=debug consul-template \
   -consul=$CONSUL \
   -template "$CT_FILE:$NX_FILE:/usr/sbin/nginx -s reload";
-  
