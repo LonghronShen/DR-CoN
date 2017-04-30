@@ -30,6 +30,8 @@ gzip_types        text/plain text/css text/json application/x-javascript applica
 gunzip			      on;                                                                                         \n\
                                                                                                               \n\
 upstream app {                                                                                                \n\
+  keepalive 100;                                                                                              \n\
+  least_conn;                                                                                                 \n\
   {{range service \"$SERVICE\"}}                                                                              \n\
   server  {{.Address}}:{{.Port}} max_fails=3 fail_timeout=60 weight=1;                                        \n\
   {{else}}server 127.0.0.1:65535;{{end}}                                                                      \n\
@@ -40,11 +42,12 @@ server {                                                                        
   location / {                                                                                                \n\
     proxy_pass http://app;                                                                                    \n\
 	  proxy_http_version 1.1;                                                                                   \n\
-    proxy_set_header Upgrade \$http_upgrade;                                                                   \n\
+    proxy_set_header Connection "";                                                                           \n\
+    proxy_set_header Upgrade \$http_upgrade;                                                                  \n\
     proxy_set_header Connection \"upgrade\";                                                                  \n\
-    proxy_set_header Host \$host;                                                                              \n\
-		proxy_set_header X-Real-IP \$remote_addr;                                                                  \n\
-		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;                                              \n\
+    proxy_set_header Host \$host;                                                                             \n\
+		proxy_set_header X-Real-IP \$remote_addr;                                                                 \n\
+		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;                                             \n\
 		proxy_buffer_size          4k;                                                                            \n\
 		proxy_buffers              4 32k;                                                                         \n\
 		proxy_busy_buffers_size    64k;                                                                           \n\
