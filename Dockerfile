@@ -42,7 +42,7 @@ server {                                                                        
   location / {                                                                                                \n\
     proxy_pass http://app;                                                                                    \n\
 	  proxy_http_version 1.1;                                                                                   \n\
-    proxy_set_header Connection "";                                                                           \n\
+    proxy_set_header Connection \"\";                                                                           \n\
     proxy_set_header Upgrade \$http_upgrade;                                                                  \n\
     proxy_set_header Connection \"upgrade\";                                                                  \n\
     proxy_set_header Host \$host;                                                                             \n\
