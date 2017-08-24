@@ -20,10 +20,10 @@ ENV SERVICE consul-8500
 # 2. Start Nginx
 # 3. Start Consul Template
 
-COPY app.conf /etc/consul-templates/
+COPY app.conf /app/
 COPY nginx.conf /etc/nginx/nginx.conf
 
-CMD /usr/sbin/nginx -c /etc/nginx/nginx.conf \
+CMD eval "echo \"$(cat /app/app.conf)\"" > $CT_FILE; /usr/sbin/nginx -c /etc/nginx/nginx.conf \
 & CONSUL_TEMPLATE_LOG=debug consul-template \
   -consul=$CONSUL \
   -template "$CT_FILE:$NX_FILE:/usr/sbin/nginx -s reload";
