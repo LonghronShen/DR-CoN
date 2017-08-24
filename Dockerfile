@@ -12,7 +12,7 @@ RUN mkdir /etc/consul-templates
 ENV CT_FILE /etc/consul-templates/nginx.conf
 
 #Setup Nginx File
-ENV NX_FILE /etc/nginx/conf.d/app.conf
+ENV NX_FILE /etc/nginx/sites-enabled/default
 
 #Default Variables
 ENV CONSUL consul:8500
