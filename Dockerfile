@@ -24,7 +24,6 @@ ENV SERVICE consul-8500
 # 3. Start Consul Template
 
 CMD echo "                                                                                                    \n\
-gzip              on;                                                                                         \n\
 gzip_min_length   1000;                                                                                       \n\
 gzip_types        text/plain text/css text/json application/x-javascript application/json application/xml;    \n\
 gunzip			      on;                                                                                         \n\
