@@ -1,4 +1,4 @@
-FROM nginx:1.7
+FROM longhronshens/nginx-grpc:latest
 
 #Install Curl
 RUN apt-get update -qq && apt-get -y install curl
