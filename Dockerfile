@@ -1,4 +1,5 @@
-FROM longhronshens/nginx-grpc:latest
+#FROM longhronshens/nginx-grpc:latest
+FROM nginx:1.7
 
 #Install Consul Template
 COPY consul-template /usr/local/bin/
