@@ -3,7 +3,8 @@ FROM nginx:1.7
 
 #Install Consul Template
 COPY consul-template /usr/local/bin/
-RUN chmod a+x /usr/local/bin/consul-template && rm /etc/nginx/nginx.conf && rm /etc/nginx/sites-enabled/default
+RUN chmod a+x /usr/local/bin/consul-template
+# && rm /etc/nginx/nginx.conf && rm /etc/nginx/sites-enabled/default
 
 #Setup Consul Template Files
 RUN mkdir /etc/consul-templates
